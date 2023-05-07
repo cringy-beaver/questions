@@ -1,27 +1,28 @@
 from fastapi import FastAPI, HTTPException
 from question_prototype.question import Question
-import random
 from db_client.ch_client import DBClient
+import os
+import random
+import uvicorn
 
 db_client = DBClient(
-    host="185....3",
-    port="8123",
-    user="hidden",
-    password="hidden",
+    host=os.getenv("DB_HOST"),
+    port=os.getenv("DB_PORT"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
 )
 
 app = FastAPI()
-# TODO swagger docs
-# TODO os.getenv
 
 
-@app.post("/questions/")
+@app.post("/questions/", description="Creates a question", status_code=200)
 async def create_question(question: Question):
     await db_client.insert_question(question.dict())
     return {"message": "Question created successfully"}
 
 
-@app.get("/questions/{question_id}")
+@app.get("/questions/{question_id}", description="Get question by id",
+         status_code=200)
 async def get_questions_by_id(question_id: int):
     questions = await db_client.get_questions_filter_by_id(question_id)
     if questions:
@@ -29,12 +30,14 @@ async def get_questions_by_id(question_id: int):
     raise HTTPException(status_code=404, detail="Question not found")
 
 
-@app.get("/questions/")
+@app.get("/questions/", description="Get all questions", status_code=200)
 async def get_all_questions():
     return await db_client.get_all_questions()
 
 
-@app.get("/questions/random/")
+@app.get("/questions/random/",
+         description="Get a random question with specific title",
+         status_code=200)
 async def get_random_question(title: str):
     """Get a random question from the database with specific title"""
     questions = await db_client.get_questions_filter_by_title(title)
@@ -44,7 +47,8 @@ async def get_random_question(title: str):
                         detail="No questions found with this title")
 
 
-@app.put("/questions/{question_id}")
+@app.put("/questions/{question_id}", description="Update question by id",
+         status_code=200)
 async def update_question(question_id: int, question: Question):
     result = await db_client.update_question(question_id, question.dict())
     if result:
@@ -52,7 +56,9 @@ async def update_question(question_id: int, question: Question):
     raise HTTPException(status_code=404, detail="Question not found")
 
 
-@app.delete("/questions/{question_id}")
+@app.delete("/questions/{question_id}",
+            description="Delete question by id",
+            status_code=200)
 async def delete_question(question_id: int):
     result = await db_client.delete_question(question_id)
     if result:
@@ -61,5 +67,7 @@ async def delete_question(question_id: int):
 
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, log_level="info")
+    uvicorn.run("main:app", host=os.getenv("HOST"),
+                reload=True,
+                port=int(os.getenv("PORT")),
+                log_level="info")

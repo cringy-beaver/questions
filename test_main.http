@@ -3,7 +3,7 @@ POST http://localhost:8000/questions/
 Content-Type: application/json
 
 {
-  "id": 2,
+  "id": 2328,
   "number": 1,
   "title": "2 asfasfasfa",
   "body": "ef efis efefe ef efefef",
@@ -30,11 +30,11 @@ Content-Type: application/json
   "id": 1,
   "number": 2,
   "title": "Updated Test Question",
-  "body": "This is an updated test question",
+  "body": "This is an 234e updated test question",
   "created_at": "2023-05-08T00:00:00",
   "link_to_s3_question_pic": "https://s3.example.com/updated-test-question"
 }
 
 
 ### Delete a question
-DELETE http://localhost:8000/questions/1
+DELETE http://localhost:8000/questions/21231323

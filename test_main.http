@@ -3,7 +3,7 @@ POST http://localhost:8000/questions/
 Content-Type: application/json
 
 {
-  "id": 2328,
+  "id": 11,
   "number": 1,
   "title": "2 asfasfasfa",
   "body": "ef efis efefe ef efefef",
@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ### Get a question by ID
-GET http://localhost:8000/questions/1
+GET http://localhost:8000/questions/228
 
 ### Get all questions
 GET http://localhost:8000/questions/
@@ -37,4 +37,4 @@ Content-Type: application/json
 
 
 ### Delete a question
-DELETE http://localhost:8000/questions/21231323
+DELETE http://localhost:8000/questions/228

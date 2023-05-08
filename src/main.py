@@ -1,9 +1,9 @@
 from fastapi import FastAPI, HTTPException
-from question_prototype.question import Question
-from db_client.ch_client import DBClient
-import os
+from src.question_prototype.question import Question
+from src.db_client.ch_client import DBClient
 import random
 import uvicorn
+import os
 
 db_client = DBClient(
     host=os.getenv("DB_HOST"),
@@ -67,7 +67,4 @@ async def delete_question(question_id: int):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host=os.getenv("HOST"),
-                reload=True,
-                port=int(os.getenv("PORT")),
-                log_level="info")
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
